@@ -29,34 +29,42 @@ namespace AddTwoNumbers
                     this.next = next;
             }
         }
-        //bool des = false;
+        bool des = false;
         public ListNode AddTwoNumbers(ListNode l1, ListNode l2)
         {
             ListNode result = new ListNode();
-            ListNode temp = result;
-            int des = 0;
-            while (l1 != null || l2 != null)
+            int x = l1.val + l2.val;
+            if (des)
             {
-                int x = l1.val + l2.val+des;
-                des = x / 10;
-                temp.next = new ListNode(x % 10, null);
-                temp = temp.next;
-                if(l1.next != null || l2.next != null)
+                x++;
+                des = false;
+            }
+            if (x > 9)
+            {
+                des = true;
+                result.val = x - 10;
+            }
+            else
+            {
+                result.val = x;
+            }
+            if (l1.next == null && l2.next == null)
+            {
+                if (des)
                 {
-                    l1 = l1.next ?? new ListNode(0, null);
-                    l2 = l2.next ?? new ListNode(0, null);
+                    result.next = new ListNode(1, null);
+                    return result;
                 }
                 else
                 {
-                    l1 = null;
-                    l2 = null;
+                    return result;
                 }
             }
-            if(des>0)
+            else
             {
-                temp.next = new ListNode(1, null);
+                result.next = AddTwoNumbers((l1.next ?? new ListNode(0, null)), (l2.next ?? new ListNode(0, null)));
+                return result;
             }
-            return result.next;
         }
     }
 }
